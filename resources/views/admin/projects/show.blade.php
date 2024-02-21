@@ -10,6 +10,26 @@
                     <h5 class="card-header">Project {{ $project->id }}</h5>
                     <div class="card-body">
                         <h2 class="card-title">{{ $project->name }}</h2>
+                        <div class="mb-3 input-group">  
+                            <label for="status" class="input-group-text">Type:</label>
+                            <select class="form-select" type="text" name="type_id" id="type_id" >
+                                @foreach ($types as $type)
+                                    <option value="{{ old('type_id',$type->id ) }}"
+                                        style="color: {{ $type->color }}" {{ $type->id == old('type_id', $type->type_id) ? 'selected' : '' }}>
+                                            {{ $type->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="mb-3 input-group">
+                                <div>
+                                    @foreach ($technologies as $technology)
+                                        <input class="form-check-input" type="checkbox" name="technologies[]" id="{{ $technology->id }}" value="{{ $technology->id }}"
+                                        {{ in_array( $technology->id, old('technologies', $project->technologies->pluck('id')->toArray())) ? 'checked' : '' }}> 
+                                        <label for="technologies-{{ $technology->id }}"> {{ $technology->name }}</label>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                         <p class="card-text">{{ $project->description }}</p>
                         <p class="card-text"><span class="fw-bold">Needed Languages:</span> {{ $project->languages }}</p>
                         <p class="card-text">
